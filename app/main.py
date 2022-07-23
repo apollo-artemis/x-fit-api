@@ -6,7 +6,7 @@ from pydantic import BaseModel
 app = FastAPI()
 
 
-class Records(BaseModel):
+class Record(BaseModel):
     date: datetime
     exercise_name: str
     weight: int = 0
@@ -18,7 +18,7 @@ def read_root():
     return "Hello World!"
 
 
-@app.get("/records", response_model=List[Records])
+@app.get("/records", response_model=List[Record])
 def read_records(user_id: int, exercise_name: str) -> list:
 
     record_1 = {
@@ -35,3 +35,11 @@ def read_records(user_id: int, exercise_name: str) -> list:
     }
 
     return [record_1, record_2]
+
+
+@app.post("/record", response_model=Record)
+def create_record(record: Record):
+
+    # user_id , exercise_name 검증
+
+    return
