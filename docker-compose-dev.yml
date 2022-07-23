@@ -1,0 +1,29 @@
+version: "3.7"
+
+networks:
+  default:
+    name: api-network
+
+services:
+  nginx:
+    iamge: 471706030465.dkr.ecr.ap-northeast-2.amazonaws.com/x-fit/api/nginx:dev
+    container_name: xfit-api-nginx
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-dev
+      network: host
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+  web:
+    image: 471706030465.dkr.ecr.ap-northeast-2.amazonaws.com/x-fit/api/app:dev
+    container_name: xfit-api-app
+    restart: always
+    build: 
+      context: ./app
+      dockerfile: Dockerfile-dev
+    command: gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+    volumes:
+      - ./app:/app

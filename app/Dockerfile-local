@@ -1,0 +1,27 @@
+# # pull official base image
+
+FROM python:3.10-slim-buster
+
+# # set work directorxy
+
+WORKDIR /app
+
+# # set environment variables
+
+ENV PYTHONPATH /app/:/app:$PYTHONPATH
+
+# # upgrade pip
+RUN pip install --upgrade pip
+
+
+COPY ./requirements.txt ./
+RUN pip install -r requirements.txt
+
+
+# # copy project
+
+COPY ./ /app/
+
+# # run CMD
+
+EXPOSE 8000
