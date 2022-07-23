@@ -6,7 +6,7 @@ networks:
 
 services:
   nginx:
-    iamge: 471706030465.dkr.ecr.ap-northeast-2.amazonaws.com/x-fit/api/nginx:dev
+    image: 471706030465.dkr.ecr.ap-northeast-2.amazonaws.com/x-fit/api/nginx:dev
     container_name: xfit-api-nginx
     restart: always
     build:
