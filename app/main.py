@@ -14,12 +14,12 @@ class Record(BaseModel):
 
 
 @app.get("/")
-async def read_root():
+def read_root():
     return "Hello World!"
 
 
 @app.get("/records", response_model=List[Record])
-async def read_records(user_id: int, exercise_name: str) -> list:
+def read_records(user_id: int, exercise_name: str) -> list:
 
     record_1 = {
         "date": datetime(2022, 6, 1),
