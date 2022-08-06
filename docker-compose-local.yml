@@ -23,6 +23,8 @@ services:
       context: ./app
       dockerfile: Dockerfile-local
     command: uvicorn main:app --host 0.0.0.0 --reload
+    env_file:
+      - ".local.env"
     volumes:
       - ./app:/app
   db:
@@ -31,10 +33,8 @@ services:
     restart: always
     ports:
       - 5432:5432
-    environment:
-      POSTGRES_USER: "x-fit"
-      POSTGRES_PASSWORD: "x-fit"
-      POSTGRES_DB : "x-fit"
+    env_file:
+      - ".local.env"
     volumes:
       - /var/lib/docker/volumes/x-fit/postgres:/var/lib/postgresql/data
       
