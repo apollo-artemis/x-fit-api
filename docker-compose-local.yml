@@ -22,6 +22,21 @@ services:
     build: 
       context: ./app
       dockerfile: Dockerfile-local
-    command: gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+    command: uvicorn main:app --host 0.0.0.0 --reload
     volumes:
       - ./app:/app
+  db:
+    image: postgres:14.4
+    container_name: db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "x-fit"
+      POSTGRES_PASSWORD: "x-fit"
+      POSTGRES_DB : "x-fit"
+    volumes:
+      - /var/lib/docker/volumes/x-fit/postgres:/var/lib/postgresql/data
+      
+
+
