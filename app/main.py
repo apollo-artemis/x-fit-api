@@ -1,8 +1,12 @@
 from typing import List
 from datetime import datetime
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Depends, HTTPException
+from model import ExerciseRecord
 from fastapi.middleware.cors import CORSMiddleware
+from db.main import get_db
+from db import schemas, crud
+
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
@@ -17,40 +21,24 @@ app.add_middleware(
 )
 
 
-class Record(BaseModel):
-    date: datetime
-    exercise_name: str
-    weight: int = 0
-    weight_unit: str = "lb"
-
-
 @app.get("/")
 def read_root():
     return "Hello World!"
 
 
-@app.get("/records", response_model=List[Record])
-def read_records(user_id: int, exercise_name: str) -> list:
+@app.post("/record/", response_model=schemas.Record)
+def create_record_for_user(
+    user_id: int, record: schemas.RecordCreate, db: Session = Depends(get_db)
+):
 
-    record_1 = {
-        "date": datetime(2022, 6, 1),
-        "exercise_name": "DeadLift",
-        "weight": 185,
-        "weight_unit": "lb",
-    }
-    record_2 = {
-        "date": datetime(2022, 6, 2),
-        "exercise_name": "DeadLift",
-        "weight": 195,
-        "weight_unit": "lb",
-    }
-
-    return [record_1, record_2]
+    return crud.create_user_records(db=db, record=record, user_id=user_id)
 
 
-@app.post("/record", response_model=Record)
-def create_record(record: Record):
+@app.get("/records", response_model=list[schemas.Record])
+def read_records_for_user(
+    user_id: int, exercise_name: str, db: Session = Depends(get_db)
+) -> list[schemas.Record]:
 
-    # user_id , exercise_name 검증
+    records = crud.get_records_for_user(db, user_id, exercise_name, skip=0, limit=100)
 
-    return
+    return records
