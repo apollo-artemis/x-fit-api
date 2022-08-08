@@ -6,6 +6,7 @@ networks:
 
 services:
   nginx:
+    platform: linux/amd64
     container_name: nginx
     restart: always
     build:
@@ -17,6 +18,7 @@ services:
     depends_on:
       - web
   web:
+    platform: linux/amd64
     container_name: web
     restart: always
     build: 
@@ -24,4 +26,24 @@ services:
       dockerfile: Dockerfile-local
     command: gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
     volumes:
+<<<<<<< Updated upstream
       - ./app:/app
+=======
+      - ./app:/app
+  db:
+    platform: linux/amd64
+    image: postgres:14.4
+    container_name: db
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - ".local.env"
+    volumes:
+      - /var/lib/docker/volumes/x-fit/postgres:/var/lib/postgresql/data
+      
+
+
+
+
+>>>>>>> Stashed changes
