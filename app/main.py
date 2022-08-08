@@ -23,14 +23,14 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return "Hello World!"
+
+    return "Hello World!!"
 
 
 @app.post("/record/", response_model=schemas.Record)
 def create_record_for_user(
     user_id: int, record: schemas.RecordCreate, db: Session = Depends(get_db)
 ):
-
     return crud.create_user_records(db=db, record=record, user_id=user_id)
 
 
@@ -40,5 +40,12 @@ def read_records_for_user(
 ) -> list[schemas.Record]:
 
     records = crud.get_records_for_user(db, user_id, exercise_name, skip=0, limit=100)
-
     return records
+
+
+@app.post("/record/", response_model=schemas.Record)
+def create_record_for_user(
+    user_id: int, record: schemas.RecordCreate, db: Session = Depends(get_db)
+):
+
+    return crud.create_user_records(db=db, record=record, user_id=user_id)

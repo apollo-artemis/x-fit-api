@@ -26,4 +26,3 @@ uvicorn==0.18.2
 uvloop==0.16.0
 watchfiles==0.15.0
 websockets==10.3
-
