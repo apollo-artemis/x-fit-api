@@ -1,6 +1,5 @@
-from sqlalchemy.orm import Session
-
 from db import models, schemas
+from sqlalchemy.orm import Session
 
 
 def get_records_for_user(
