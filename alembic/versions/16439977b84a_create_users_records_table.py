@@ -44,4 +44,5 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    pass
+    op.drop_table("records")
+    op.drop_table("users")
