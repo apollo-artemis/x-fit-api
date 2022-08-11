@@ -29,9 +29,4 @@ app.include_router(records.router)
 
 @app.get("/")
 def read_root():
-
     return "Hello World!!"
-
-
-
-

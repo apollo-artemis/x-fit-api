@@ -29,17 +29,18 @@ class UserBase(BaseModel):
 
 
 class UserRegister(UserBase):
-    email: EmailStr = None 
+    email: EmailStr = None
     password: str = None
 
+
 class UserLogin(UserBase):
-    email: EmailStr = None 
+    email: EmailStr = None
     password: str = None
 
 
 class UserJWT(UserBase):
     id: int = None
-    email: EmailStr = None 
+    email: EmailStr = None
 
     class Config:
         orm_mode = True
