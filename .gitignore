@@ -2,3 +2,6 @@
 *.env
 __pycache__
 .DS_STORE
+
+# db migration env
+alembic.ini
