@@ -1,11 +1,11 @@
-from typing import List
 from datetime import datetime
-from fastapi import FastAPI, Depends, HTTPException
-from model import ExerciseRecord
-from fastapi.middleware.cors import CORSMiddleware
-from db.main import get_db
-from db import schemas, crud
+from typing import List
 
+from db import crud, schemas
+from db.main import get_db
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from model import ExerciseRecord
 from sqlalchemy.orm import Session
 
 app = FastAPI()

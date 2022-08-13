@@ -8,7 +8,7 @@ WORKDIR /app
 
 # # set environment variables
 
-ENV PYTHONPATH /app/:/app:$PYTHONPATH
+ENV PYTHONPATH /app:$PYTHONPATH
 
 # # upgrade pip
 RUN pip install --upgrade pip

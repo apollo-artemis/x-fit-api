@@ -5,9 +5,9 @@ Revises: 5b74abcea7d7
 Create Date: 2022-08-07 18:25:02.542577
 
 """
-from alembic import op
 import sqlalchemy as sa
 
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "16439977b84a"
@@ -17,6 +17,7 @@ depends_on = None
 
 
 def upgrade() -> None:
+
     op.create_table(
         "users",
         sa.Column("id", sa.Integer, primary_key=True),
@@ -44,4 +45,5 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    pass
+    op.drop_table("records")
+    op.drop_table("users")
