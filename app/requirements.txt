@@ -26,3 +26,9 @@ uvicorn==0.18.2
 uvloop==0.16.0
 watchfiles==0.15.0
 websockets==10.3
+bcrypt==3.2.2
+cryptography
+email-validator
+fastapi-mail
+PyJWT==2.4.0
+pytz

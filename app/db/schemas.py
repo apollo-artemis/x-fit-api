@@ -1,5 +1,7 @@
 from pydantic import BaseModel
+from pydantic.networks import EmailStr
 from datetime import datetime
+from typing import List
 
 
 class RecordBase(BaseModel):
@@ -26,13 +28,26 @@ class UserBase(BaseModel):
     email: str
 
 
-class UserCreate(UserBase):
-    password: str
+class UserRegister(UserBase):
+    email: EmailStr = None 
+    password: str = None
+
+class UserLogin(UserBase):
+    email: EmailStr = None 
+    password: str = None
+
+
+class UserJWT(UserBase):
+    id: int = None
+    email: EmailStr = None 
+
+    class Config:
+        orm_mode = True
 
 
 class User(UserBase):
     id: int
-    records: list[Record] = []
+    records: List[Record] = []
 
     class Config:
         orm_mode = True
