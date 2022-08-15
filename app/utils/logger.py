@@ -17,19 +17,19 @@ async def api_logger(request: Request, response=None, error=None):
     error_log = None
     user = request.state.user
     # body = await request.body()
-    
+
     if error:
         error_func = error_file = error_line = "UNKNOWN"
         if request.state.inspect:
             pass
-        
+
         error_log = dict(
-            errorFunc=error_func, 
+            errorFunc=error_func,
             location=f"{str(error_line)} in {error_file}",
             raised=str(error.__class__.__name__),
-            msg=str(error)
+            msg=str(error),
         )
-    
+
     user_log = dict(
         client=request.state.ip,
         user_email=user.email if user and user.email else None,
@@ -43,7 +43,7 @@ async def api_logger(request: Request, response=None, error=None):
         client=user_log,
         processedTime=str(round(t * 1000, 5)) + "ms",
         datetimeUTC=datetime.utcnow().strftime(time_format),
-        datetimeKST=datetime.now(timezone('Asia/Seoul')).strftime(time_format),
+        datetimeKST=datetime.now(timezone("Asia/Seoul")).strftime(time_format),
     )
 
     if error and error.status_code >= 500:

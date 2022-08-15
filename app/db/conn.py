@@ -1,6 +1,5 @@
-from db import models, records_crud, schemas
+from db import models
 from db.database import SessionLocal, engine
-from sqlalchemy.orm import Session
 
 models.Base.metadata.create_all(bind=engine)
 

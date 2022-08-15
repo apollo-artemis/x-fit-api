@@ -12,7 +12,8 @@ from service.auth_service import (
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 
-router = APIRouter(prefix='/auth')
+router = APIRouter(prefix="/auth")
+
 
 @router.post("/register")
 async def register(register_info: UserRegister, session: Session = Depends(get_db)):
@@ -47,7 +48,9 @@ async def login(user_info: UserLogin, session: Session = Depends(get_db)):
     if not await check_password(user_info):
         return JSONResponse(status_code=400, content=dict(msg="WRONG ID OR PASSWORD"))
 
-    user = session.query(User).filter(User.email==user_info.email)
-        
-    token = TokenGenerator().encode_token(UserJWT.from_orm(user).dict(include={'id', 'email'}))
+    user = session.query(User).filter(User.email == user_info.email)
+
+    token = TokenGenerator().encode_token(
+        UserJWT.from_orm(user).dict(include={"id", "email"})
+    )
     return JSONResponse(status_code=201, content=dict(Authorization=f"Bearer {token}"))
