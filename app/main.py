@@ -1,14 +1,7 @@
-from typing import List
-from datetime import datetime
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
-from db import records_crud
-from model import ExerciseRecord
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from db.conn import get_db
-from db import schemas
-from router import auth, records
 from middleware.validator import AuthRequestMiddleware
+from router import auth, records
 
 app = FastAPI()
 
