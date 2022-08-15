@@ -1,10 +1,11 @@
 import re
+
 import bcrypt
+from db.database import engine as db_engine
+from db.models import User
+from db.schemas import UserLogin, UserRegister
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-from db.models import User
-from db.database import engine as db_engine
-from db.schemas import UserRegister, UserLogin
 
 
 def create_new_user(new_user: UserRegister, session: Session):

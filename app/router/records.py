@@ -1,10 +1,10 @@
 from typing import List
+
+from db.conn import get_db
+from db.records_crud import create_user_records, get_records_for_user
+from db.schemas import Record, RecordBase, RecordCreate
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from db.schemas import Record, RecordBase, RecordCreate
-from db.records_crud import create_user_records, get_records_for_user
-from db.conn import get_db
-
 
 router = APIRouter(prefix='')
 

@@ -1,17 +1,16 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from starlette.responses import JSONResponse
 from db.conn import get_db
 from db.models import User
-from db.schemas import UserJWT, UserRegister, UserLogin
+from db.schemas import UserJWT, UserLogin, UserRegister
+from fastapi import APIRouter, Depends
 from middleware.validator import TokenGenerator
 from service.auth_service import (
-    create_new_user, 
-    is_email_exist, 
-    check_pw_format, 
-    check_password
+    check_password,
+    check_pw_format,
+    create_new_user,
+    is_email_exist,
 )
-
+from sqlalchemy.orm import Session
+from starlette.responses import JSONResponse
 
 router = APIRouter(prefix='/auth')
 

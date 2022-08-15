@@ -1,15 +1,16 @@
 import os
-import jwt
 import time
 from datetime import datetime, timedelta
-from starlette.requests import Request
-from starlette.responses import Response, JSONResponse
-from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from errors import exceptions
-from service.auth_service import url_pattern_check
-from utils.logger import api_logger
+
+import jwt
 from db.schemas import UserJWT
+from errors import exceptions
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from service.auth_service import url_pattern_check
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.requests import Request
+from starlette.responses import JSONResponse, Response
+from utils.logger import api_logger
 
 
 class TokenGenerator:

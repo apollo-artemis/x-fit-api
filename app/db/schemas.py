@@ -1,7 +1,8 @@
-from pydantic import BaseModel
-from pydantic.networks import EmailStr
 from datetime import datetime
 from typing import List
+
+from pydantic import BaseModel
+from pydantic.networks import EmailStr
 
 
 class RecordBase(BaseModel):
