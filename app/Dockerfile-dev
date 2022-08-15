@@ -25,3 +25,5 @@ COPY ./ /app/
 # # run CMD
 
 EXPOSE 8000
+
+CMD ["alembic" , "--name", "dev_db", "upgrade", "head"]
