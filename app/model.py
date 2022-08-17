@@ -10,6 +10,7 @@ class ExerciseRecord(BaseModel):
     unit: str = "lb"
     date: datetime = datetime.now()
 
+
 class UserRegister(BaseModel):
     # 고도화 필요
     email: str = None

@@ -6,7 +6,7 @@ import jwt
 from db.schemas import UserJWT
 from errors import exceptions
 from fastapi.security import HTTPBearer
-from service.auth_service import url_pattern_check
+from services.auth_service import url_pattern_check
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response

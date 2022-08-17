@@ -2,8 +2,8 @@ from db.conn import get_db
 from db.models import User
 from db.schemas import UserJWT, UserLogin, UserRegister
 from fastapi import APIRouter, Depends
-from middleware.validator import TokenGenerator
-from service.auth_service import (
+from middlewares.validator import TokenGenerator
+from services.auth_service import (
     check_password,
     check_pw_format,
     create_new_user,
