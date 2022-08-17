@@ -3,7 +3,7 @@ from db.models import User
 from db.schemas import UserJWT, UserLogin, UserRegister
 from fastapi import APIRouter, Depends
 from middlewares.validator import TokenGenerator
-from services.auth_service import (
+from services.auth import (
     check_password,
     check_pw_format,
     create_new_user,
