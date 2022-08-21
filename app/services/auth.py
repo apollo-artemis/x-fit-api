@@ -1,24 +1,25 @@
 import re
 
-import bcrypt
-from db.database import engine as db_engine
-from db.models import User
-from db.schemas import UserLogin, UserRegister
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+from fastapi import Depends
+import bcrypt
+from db.conn import db
+from db.schemas import Users
+from models import UserLogin, UserRegister
 
 
-def create_new_user(new_user: UserRegister, session: Session):
+def create_new_user(new_user: UserRegister, session: Session = Depends(db.session)):
     hash_pw = bcrypt.hashpw(new_user.password.encode("utf-8"), bcrypt.gensalt()).decode(
         "utf-8"
     )
-    user = User(email=new_user.email, hashed_password=hash_pw)
-    session.add(user)
-    session.commit()
+    Users().create(
+        session, auto_commit=True, email=new_user.email, hashed_password=hash_pw
+    )
 
 
 def is_email_exist(user_info: UserRegister):
-    engine = db_engine
+    engine = db._engine
     query = text(f"SELECT email FROM users where email='{user_info.email}'")
     with engine.connect() as conn:
         res = conn.execute(query)
@@ -36,7 +37,7 @@ async def check_pw_format(password: UserRegister):
 
 
 async def check_password(user: UserLogin):
-    engine = db_engine
+    engine = db._engine
     query = text(f"SELECT hashed_password FROM users where email='{user.email}'")
 
     with engine.connect() as conn:

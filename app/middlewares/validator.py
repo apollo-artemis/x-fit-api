@@ -3,7 +3,7 @@ import time
 from datetime import datetime, timedelta
 
 import jwt
-from db.schemas import UserJWT
+from models import UserJWT
 from errors import exceptions
 from fastapi.security import HTTPBearer
 from services.auth import url_pattern_check

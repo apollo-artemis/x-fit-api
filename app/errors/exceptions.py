@@ -14,6 +14,7 @@ class StatusCode:
     HTTP_405 = 405
     HTTP_422 = 422
 
+
 class APIException(Exception):
     status_code: int
     code: str
@@ -28,15 +29,15 @@ class APIException(Exception):
         code: str = "000000",
         msg: str = None,
         detail: str = None,
-        ex: Exception
-        
+        ex: Exception,
     ):
         self.status_code = status_code
         self.code = code
         self.msg = msg
         self.detail = detail
-        self.ex = ex,
+        self.ex = (ex,)
         super().__init__(ex)
+
 
 class NotFoundUserEx(APIException):
     def __init__(self, user_id: int = None, ex: Exception = None):

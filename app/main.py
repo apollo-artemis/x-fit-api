@@ -1,12 +1,19 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from middlewares.validator import AuthRequestMiddleware
-from routers import auth, records
+from routers import auth, records, root_router
 import uvicorn
+from common.config import conf
+from dataclasses import asdict
+from db.conn import db
 
 
 def create_app():
     app = FastAPI()
+
+    c = conf()
+    conf_dict = asdict(c)
+    db.init_app(app, **conf_dict)
 
     origins = ["*"]
 
@@ -21,16 +28,12 @@ def create_app():
 
     app.include_router(auth.router)
     app.include_router(records.router)
+    app.include_router(root_router)
 
     return app
 
 
 app = create_app()
-
-
-@app.get("/")
-def read_root():
-    return "Hello World"
 
 
 if __name__ == "__main__":
