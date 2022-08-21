@@ -8,7 +8,7 @@ WORKDIR /app
 
 # # set environment variables
 
-ENV PYTHONPATH /app/:/app:$PYTHONPATH
+ENV PYTHONPATH /app:$PYTHONPATH
 
 # # upgrade pip
 RUN pip install --upgrade pip
@@ -25,3 +25,5 @@ COPY ./ /app/
 # # run CMD
 
 EXPOSE 8000
+
+# CMD ["alembic" , "--name", "dev_db", "upgrade", "head"]
