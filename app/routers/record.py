@@ -13,11 +13,12 @@ from middlewares.validator import TokenGenerator
 API_KEY_HEADER = APIKeyHeader(name="Authorization", auto_error=False)
 router = APIRouter(prefix="")
 
+
 @router.post("/record")
 async def create_record_for_user(
-    record: RecordCreate, 
+    record: RecordCreate,
     token: str = Depends(API_KEY_HEADER),
-    session: Session = Depends(db.get_db)
+    session: Session = Depends(db.get_db),
 ):
     user_info = TokenGenerator().decode_token(token)
     created_record = create_user_records(record, user_info["id"], session)
@@ -27,14 +28,12 @@ async def create_record_for_user(
 
 @router.get("/records", response_model=List[Record])
 async def read_records_for_user(
-    exercise_name: str, 
+    exercise_name: str,
     token: str = Depends(API_KEY_HEADER),
-    session: Session = Depends(db.get_db)
+    session: Session = Depends(db.get_db),
 ) -> List[Record]:
-    
+
     user_info = TokenGenerator().decode_token(token)
-    records = get_records_for_user(
-        user_info["id"], exercise_name, skip=0, limit=100, session=session
-    )
-    
+    records = get_records_for_user(user_info["id"], exercise_name, session=session)
+
     return records
