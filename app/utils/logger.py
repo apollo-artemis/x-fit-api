@@ -5,7 +5,7 @@ from time import time
 
 from fastapi.logger import logger
 from fastapi.requests import Request
-from pytz import timezone
+# from pytz import timezone
 
 logger.setLevel(logging.INFO)
 
@@ -43,7 +43,8 @@ async def api_logger(request: Request, response=None, error=None):
         client=user_log,
         processedTime=str(round(t * 1000, 5)) + "ms",
         datetimeUTC=datetime.utcnow().strftime(time_format),
-        datetimeKST=datetime.now(timezone("Asia/Seoul")).strftime(time_format),
+        # datetimeKST=datetime.now(timezone("Asia/Seoul")).strftime(time_format),
+        datetimeKST=datetime.now().strftime(time_format),
     )
 
     if error and error.status_code >= 500:

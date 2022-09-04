@@ -1,11 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import APIKeyHeader
+from routers import record
 from middlewares.validator import AuthRequestMiddleware
-from routers import auth, records, root_router
+from routers import auth, wod, root_router
 import uvicorn
 from common.config import conf
 from dataclasses import asdict
 from db.conn import db
+
+
 
 
 def create_app():
@@ -27,7 +31,8 @@ def create_app():
     )
 
     app.include_router(auth.router)
-    app.include_router(records.router)
+    app.include_router(record.router)
+    app.include_router(wod.router)
     app.include_router(root_router)
 
     return app

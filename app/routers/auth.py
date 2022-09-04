@@ -26,7 +26,7 @@ async def register(register_info: UserRegister, session: Session = Depends(db.ge
         return JSONResponse(status_code=400, content=dict(msg="NO EMAIL OR PASSWORD"))
     if is_email_exist(register_info):
         return JSONResponse(status_code=400, content=dict(msg="EMAIL ALREADY EXISTS"))
-    if not check_pw_format(register_info.password):
+    if not await check_pw_format(register_info.password):
         return JSONResponse(status_code=400, content=dict(msg="WRONG PASSWORD FORMAT"))
 
     create_new_user(register_info, session)
@@ -48,8 +48,8 @@ async def login(user_info: UserLogin, session: Session = Depends(db.get_db)):
     if not await check_password(user_info):
         return JSONResponse(status_code=400, content=dict(msg="WRONG ID OR PASSWORD"))
 
-    user = session.query(Users).filter(Users.email == user_info.email)
-
+    user = session.query(Users).filter(Users.email == user_info.email).scalar()
+    
     token = TokenGenerator().encode_token(
         UserJWT.from_orm(user).dict(include={"id", "email"})
     )
