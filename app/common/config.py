@@ -4,13 +4,15 @@ dictionary 형태로 가지고 오고 싶다면
 """
 from dataclasses import dataclass
 from os import environ
+from common.env import MYSQL_HOST
 
+# MYSQL_HOST = environ.get("MYSQL_HOST")
 
-MYSQL_HOST = environ.get("MYSQL_HOST")
 MYSQL_PORT = environ.get("MYSQL_PORT")
 DATABASE_NAME = environ.get("DATABASE_NAME")
 MYSQL_ROOT_USER = environ.get("MYSQL_ROOT_USER")
 MYSQL_ROOT_PASSWORD = environ.get("MYSQL_ROOT_PASSWORD")
+
 
 
 @dataclass

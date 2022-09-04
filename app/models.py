@@ -14,7 +14,11 @@ class RecordBase(BaseModel):
 
 
 class RecordCreate(RecordBase):
-    pass
+    exercise_name: str
+    weight: int = 0
+    unit: str = "lb"
+    date: datetime
+    repetition_maximum: int = 1
 
 
 class Record(RecordBase):
@@ -53,3 +57,12 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class WodCreate(BaseModel):
+    title: str
+    text: str
+    wod_type: str
+    # like: int = 0
+    # view_count: int = 0
+    

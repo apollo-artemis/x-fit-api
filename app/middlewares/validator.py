@@ -21,7 +21,7 @@ class TokenGenerator:
     def encode_token(self, user_info):
         payload = {
             "iat": datetime.now(),
-            "exp": datetime.now() + timedelta(hours=1),
+            "exp": datetime.now() + timedelta(hours=12),
             "sub": user_info,
         }
 
