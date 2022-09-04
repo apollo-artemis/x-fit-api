@@ -20,7 +20,5 @@ def read_records_for_user(
     user_id: int, exercise_name: str, session: Session = Depends(db.get_db)
 ) -> List[Record]:
 
-    records = get_records_for_user(
-        user_id, exercise_name, skip=0, limit=100, session=session
-    )
+    records = get_records_for_user(user_id, exercise_name, session=session)
     return records

@@ -8,16 +8,13 @@ from db.conn import db
 def get_records_for_user(
     user_id: int,
     exercise_name: str,
-    skip: int = 0,
-    limit: int = 100,
     session: Session = Depends(db.get_db),
 ):
     return (
         session.query(Records)
         .filter(Records.user_id == user_id)
         .filter(Records.exercise_name == exercise_name)
-        .offset(skip)
-        .limit(limit)
+        .order_by(Records.date.desc())
         .all()
     )
 
