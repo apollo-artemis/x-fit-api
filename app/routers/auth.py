@@ -24,12 +24,12 @@ async def register(register_info: UserRegister, session: Session = Depends(db.ge
     """
     if not register_info.email or not register_info.password:
         return JSONResponse(status_code=400, content=dict(msg="NO EMAIL OR PASSWORD"))
-    if is_email_exist(register_info):
+    if await is_email_exist(register_info):
         return JSONResponse(status_code=400, content=dict(msg="EMAIL ALREADY EXISTS"))
     if not await check_pw_format(register_info.password):
         return JSONResponse(status_code=400, content=dict(msg="WRONG PASSWORD FORMAT"))
 
-    create_new_user(register_info, session)
+    await create_new_user(register_info, session)
 
     return JSONResponse(status_code=201, content=dict(msg="SUCCESSFULLY REGISTERED"))
 
@@ -43,7 +43,7 @@ async def login(user_info: UserLogin, session: Session = Depends(db.get_db)):
     """
     if not user_info.email or not user_info.password:
         return JSONResponse(status_code=400, content=dict(msg="NO EMAIL OR PASSWORD"))
-    if not is_email_exist(user_info):
+    if not await is_email_exist(user_info):
         return JSONResponse(status_code=400, content=dict(msg="WRONG ID OR PASSWORD"))
     if not await check_password(user_info):
         return JSONResponse(status_code=400, content=dict(msg="WRONG ID OR PASSWORD"))

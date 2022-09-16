@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List
-
+from enum import Enum
 from pydantic import BaseModel
 from pydantic.networks import EmailStr
 
@@ -30,17 +30,21 @@ class Record(RecordBase):
 
 
 class UserBase(BaseModel):
-    email: str
+    email: EmailStr
 
+class SexType(str, Enum):
+    male = "male"
+    female = "female"
 
 class UserRegister(UserBase):
-    email: EmailStr = None
-    password: str = None
-
+    password: str
+    birth: str 
+    sex: SexType 
+    height: int
+    weight: int
 
 class UserLogin(UserBase):
-    email: EmailStr = None
-    password: str = None
+    password: str
 
 
 class UserJWT(UserBase):
@@ -65,4 +69,16 @@ class WodCreate(BaseModel):
     wod_type: str
     # like: int = 0
     # view_count: int = 0
-    
+
+class WodDetail(BaseModel):
+    title: str
+    text: str
+    like: int
+    view_counts: int
+    created_at: str
+    wod_type: str
+
+    class Config:
+        orm_mode = True
+class WodDelete(BaseModel):
+    wod_id: int

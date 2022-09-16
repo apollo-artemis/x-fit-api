@@ -1,7 +1,7 @@
 from ast import For
 from unittest.util import _MAX_LENGTH
 from db.conn import Base
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, func
+from sqlalchemy import Enum, Column, DateTime, ForeignKey, Integer, String, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 
@@ -13,28 +13,24 @@ class BaseMixin:
 
 
     def all_columns(self):
-        return [c for c in self.__table__.columns]
+        return [c for c in self.__table__.columns if c.primary_key is False and c.name != "created_at"]
+
 
     def __hash__(self):
         return hash(self.id)
 
-    def create(self, session: Session, auto_commit=False, **kwargs):
-        """
-        테이블 데이터 적재 전용 함수
-        :param session:
-        :param auto_commit: 자동 커밋 여부
-        :param kwargs: 적재 할 데이터
-        :return:
-        """
-        for col in self.all_columns():
+    @classmethod
+    def create(cls, session: Session, auto_commit=False, **kwargs):
+        obj = cls()
+        for col in obj.all_columns():
             col_name = col.name
             if col_name in kwargs:
-                setattr(self, col_name, kwargs.get(col_name))
-        session.add(self)
+                setattr(obj, col_name, kwargs.get(col_name))
+        session.add(obj)
         session.flush()
         if auto_commit:
             session.commit()
-        return self
+        return obj
 
 
 class Users(Base, BaseMixin):
@@ -42,7 +38,11 @@ class Users(Base, BaseMixin):
 
     email = Column(String(100), unique=True, index=True)
     hashed_password = Column(String(2000))
-
+    sex = Column(Enum("M", "F"), nullable=True)
+    height = Column(Integer, nullable=True)
+    weight = Column(Integer, nullable=True)
+    birth = Column(DateTime)
+    
     record = relationship("Records", back_populates="user")
     wod = relationship("Wods", back_populates="user")
     wod_time_record = relationship("WodTimeRecords", back_populates="user")
@@ -58,7 +58,7 @@ class Records(Base, BaseMixin):
     unit = Column(String(200))
     date = Column(DateTime)
     repetition_maximum = Column(Integer)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'))
     
     user = relationship("Users", back_populates="record")
 
@@ -80,8 +80,8 @@ class Wods(Base, BaseMixin):
     text = Column(String(1000), nullable=False)
     like = Column(Integer())
     view_counts = Column(Integer())
-    user_id = Column(Integer, ForeignKey(Users.id))
-    wod_type_id = Column(Integer, ForeignKey(WodTypes.id))
+    user_id = Column(Integer, ForeignKey(Users.id, ondelete='CASCADE'))
+    wod_type_id = Column(Integer, ForeignKey(WodTypes.id, ondelete='SET NULL'))
 
     user = relationship("Users", back_populates="wod")
     wod_type = relationship("WodTypes", back_populates="wod")

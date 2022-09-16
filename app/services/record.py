@@ -34,3 +34,12 @@ def get_records_for_user(
         .limit(limit)
         .all()
     )
+
+# kg 2 lbs, lbs 2 kg
+async def weight_shift(weight, current_unit):
+    if current_unit == "kg":
+        target = weight * 2.20462
+    else:
+        target = weight * 0.453592
+    
+    return target

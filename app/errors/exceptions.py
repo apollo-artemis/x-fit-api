@@ -1,8 +1,3 @@
-import json
-
-from fastapi import Request
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
 
 
 class StatusCode:
@@ -82,6 +77,14 @@ class TokenDecodeEx(APIException):
             ex=ex,
         )
 
+class NotFoundEx(APIException):
+    def __init__(self, ex: Exception = None):
+        super().__init__(
+            status_code=StatusCode.HTTP_404,
+            msg=f"존재하지 않습니다.",
+            detail="Not Found Error",
+            code=f"{StatusCode.HTTP_422}{'1'.zfill(4)}",
+        )
 
 # class EntityError(APIException):
 #     def __init__(self, ex: Exception = None):
