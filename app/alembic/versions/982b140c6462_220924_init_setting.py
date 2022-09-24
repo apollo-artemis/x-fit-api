@@ -1,8 +1,8 @@
-"""220923_mac_migration
+"""220924_init_setting
 
-Revision ID: 3d98b619bd00
+Revision ID: 982b140c6462
 Revises: 
-Create Date: 2022-09-23 00:10:16.407947
+Create Date: 2022-09-24 07:56:41.547034
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3d98b619bd00'
+revision = '982b140c6462'
 down_revision = None
 branch_labels = None
 depends_on = None

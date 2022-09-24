@@ -2,7 +2,7 @@ version: "3.7"
 
 networks:
   default:
-    name: api-network
+    name: api-network-dev
 
 services:
   nginx:
