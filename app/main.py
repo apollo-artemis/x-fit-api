@@ -10,8 +10,6 @@ from dataclasses import asdict
 from db.conn import db
 
 
-
-
 def create_app():
     app = FastAPI()
 

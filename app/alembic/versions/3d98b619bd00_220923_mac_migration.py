@@ -1,8 +1,8 @@
-"""wod
+"""220923_mac_migration
 
-Revision ID: f45d494f0d36
-Revises: 2e6e495ffcab
-Create Date: 2022-09-03 01:09:03.462531
+Revision ID: 3d98b619bd00
+Revises: 
+Create Date: 2022-09-23 00:10:16.407947
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f45d494f0d36'
-down_revision = '2e6e495ffcab'
+revision = '3d98b619bd00'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -24,6 +24,10 @@ def upgrade() -> None:
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.Column('email', sa.String(length=100), nullable=True),
     sa.Column('hashed_password', sa.String(length=2000), nullable=True),
+    sa.Column('sex', sa.Enum('M', 'F'), nullable=True),
+    sa.Column('height', sa.Integer(), nullable=True),
+    sa.Column('weight', sa.Integer(), nullable=True),
+    sa.Column('birth', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
@@ -46,7 +50,7 @@ def upgrade() -> None:
     sa.Column('date', sa.DateTime(), nullable=True),
     sa.Column('repetition_maximum', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_records_exercise_name'), 'records', ['exercise_name'], unique=False)
@@ -61,8 +65,8 @@ def upgrade() -> None:
     sa.Column('view_counts', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('wod_type_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.ForeignKeyConstraint(['wod_type_id'], ['wod_types.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['wod_type_id'], ['wod_types.id'], ondelete='SET NULL'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_wods_id'), 'wods', ['id'], unique=False)

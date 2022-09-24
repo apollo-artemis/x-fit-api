@@ -24,13 +24,13 @@ class APIException(Exception):
         code: str = "000000",
         msg: str = None,
         detail: str = None,
-        ex: Exception,
+        ex: Exception = None,
     ):
         self.status_code = status_code
         self.code = code
         self.msg = msg
         self.detail = detail
-        self.ex = (ex,)
+        self.ex = ex
         super().__init__(ex)
 
 
@@ -84,6 +84,7 @@ class NotFoundEx(APIException):
             msg=f"존재하지 않습니다.",
             detail="Not Found Error",
             code=f"{StatusCode.HTTP_422}{'1'.zfill(4)}",
+            ex=ex
         )
 
 # class EntityError(APIException):

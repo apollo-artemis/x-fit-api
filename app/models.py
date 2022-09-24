@@ -82,3 +82,8 @@ class WodDetail(BaseModel):
         orm_mode = True
 class WodDelete(BaseModel):
     wod_id: int
+
+class WodUpdate(BaseModel):
+    title: str
+    text: str
+    wod_type: str

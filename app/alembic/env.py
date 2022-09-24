@@ -39,7 +39,7 @@ def run_migrations_offline() -> None:
     """
     # url = config.get_main_option("sqlalchemy.url")
     url = os.getenv("DATABASE_URL")
-    url = "mysql+pymysql://root:9BmwoAFdYgcN4kJhECUG@172.25.0.4:3306/x-fit?charset=utf8mb4"
+    url = "mysql+pymysql://root:9BmwoAFdYgcN4kJhECUG@172.25.0.2:3306/x-fit?charset=utf8mb4"
     
     context.configure(
         url=url,
@@ -62,7 +62,7 @@ def run_migrations_online() -> None:
     config_section = config.get_section(config.config_ini_section)
     # print(config_section["sqlalchemy.url"])
     url = os.getenv("DATABASE_URL")
-    url = "mysql+pymysql://root:9BmwoAFdYgcN4kJhECUG@127.25.0.2:3306/x-fit?charset=utf8mb4"
+    url = "mysql://root:98mwoAFdYgcN4kJhECUG@172.18.0.2:3306/x-fit?charset=utf8mb4"
 
     config_section["sqlalchemy.url"] = url
     # 위 3줄 새로 추가

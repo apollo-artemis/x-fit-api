@@ -4,5 +4,6 @@ env.py
 __pycache__
 .DS_STORE
 
+app/alembic/backup
 # db migration env
 alembic.ini
