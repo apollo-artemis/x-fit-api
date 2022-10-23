@@ -1,14 +1,12 @@
+from db.conn import db
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
-from sqlalchemy.orm import Session
-from db.conn import db
-from db.schemas import Users, Wods
-from services.wod import create_user_wod, get_wod_detail, wod_ownership_check, update_wod_info, wod_delete
-from models import WodCreate, WodDetail, WodUpdate
 from middlewares.validator import TokenGenerator
-from errors import exceptions as ex
-
+from models import WodCreate, WodDetail, WodUpdate
+from services.wod import (create_user_wod, get_wod_detail, update_wod_info,
+                          wod_delete, wod_ownership_check)
+from sqlalchemy.orm import Session
 
 API_KEY_HEADER = APIKeyHeader(name="Authorization", auto_error=False)
 router = APIRouter(prefix="/wod")
@@ -23,7 +21,7 @@ async def create_new_wod(
 ):
 
     auth = TokenGenerator()
-    user_info = auth.decode_token(token)
+    user_info = auth.decode_token(token.split(" ")[1].strip())
     
     create_user_wod(wod_info, user_info['id'], session)
     
@@ -37,7 +35,8 @@ async def wod_view(
     token: str = Depends(API_KEY_HEADER),
     session: Session = Depends(db.session)
 ):
-    
+    auth = TokenGenerator()
+    user_info = auth.decode_token(token.split(" ")[1].strip())
     wod_info = await get_wod_detail(wod_id, session)
 
     return wod_info
@@ -55,7 +54,7 @@ async def update_wod(
 ):
     
     auth = TokenGenerator()
-    user_info = auth.decode_token(token)
+    user_info = auth.decode_token(token.split(" ")[1].strip())
     
     wod_ownership_check(wod_id, user_info["id"], session)
     update_wod_info(wod_id, wod_info, session)
@@ -71,7 +70,7 @@ async def delete_wod(
     token: str = Depends(API_KEY_HEADER)
 ):
     auth = TokenGenerator()
-    user_info = auth.decode_token(token)
+    user_info = auth.decode_token(token.split(" ")[1].strip())
     
     wod_ownership_check(wod_id, user_info["id"], session)
     wod_delete(wod_id, session)

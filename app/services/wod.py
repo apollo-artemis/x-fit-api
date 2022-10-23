@@ -1,7 +1,7 @@
-from fastapi import Depends, HTTPException
 # from sqlalchemy import delete, where
-from db.schemas import Wods, Users, WodTypes
-from errors import exceptions 
+from db.schemas import Users, Wods, WodTypes
+from errors import exceptions
+from fastapi import HTTPException
 
 
 def wod_type_shift(wod_type_str):

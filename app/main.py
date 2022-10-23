@@ -1,16 +1,15 @@
-from fastapi import FastAPI, Depends
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import APIKeyHeader
-from routers import record
-from middlewares.validator import AuthRequestMiddleware
-from routers import auth, wod, root_router
+from dataclasses import asdict
+
 import uvicorn
 from common.config import conf
-from dataclasses import asdict
 from db.conn import db
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from routers import auth, record, root_router, wod
 
+# import click
 
-def create_app():
+def create_app() -> FastAPI:
     app = FastAPI()
 
     c = conf()

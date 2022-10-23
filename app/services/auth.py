@@ -1,12 +1,12 @@
 import re
 from datetime import datetime
-from sqlalchemy import text
-from sqlalchemy.orm import Session
-from fastapi import Depends
+
 import bcrypt
 from db.conn import db
 from db.schemas import Users
+from fastapi import Depends
 from models import UserLogin, UserRegister
+from sqlalchemy.orm import Session
 
 
 async def create_new_user(new_user: UserRegister, session: Session = Depends(db.session)):
@@ -35,9 +35,11 @@ async def is_email_exist(user_info: UserRegister):
         return bool(result)
 
 
+# deprecate
 async def check_pw_format(password: UserRegister):
     # if re.match('^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$',password):
     #     return True
+
     if len(password) > 6 and len(password) <= 20:
         return True
     return False

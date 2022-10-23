@@ -1,8 +1,8 @@
+from db.conn import db
 from db.schemas import Records
+from fastapi import Depends
 from models import RecordCreate
 from sqlalchemy.orm import Session
-from fastapi import Depends
-from db.conn import db
 
 
 def create_user_records(

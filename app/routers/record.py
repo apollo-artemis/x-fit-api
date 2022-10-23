@@ -1,14 +1,13 @@
 from typing import List
-from fastapi import APIRouter, Depends
-from fastapi.security import APIKeyHeader, OAuth2PasswordBearer
-from fastapi.responses import JSONResponse
-from sqlalchemy.orm import Session
+
 from db.conn import db
 from db.crud.records import get_records_for_user
-from services.record import create_user_records
-from models import Record, RecordCreate
+from fastapi import APIRouter, Depends
+from fastapi.security import APIKeyHeader
 from middlewares.validator import TokenGenerator
-
+from models import Record, RecordCreate
+from services.record import create_user_records
+from sqlalchemy.orm import Session
 
 API_KEY_HEADER = APIKeyHeader(name="Authorization", auto_error=False)
 # oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token") # token이면 endpoint도 token이어야 한다
@@ -21,7 +20,7 @@ async def create_record_for_user(
     token: str = Depends(API_KEY_HEADER),
     session: Session = Depends(db.get_db),
 ):
-    user_info = TokenGenerator().decode_token(token)
+    user_info = TokenGenerator().decode_token(token.split(" ")[1].strip())
     created_record = create_user_records(record, user_info["id"], session)
 
     return created_record
@@ -34,7 +33,7 @@ async def read_records_for_user(
     session: Session = Depends(db.get_db),
 ) -> List[Record]:
 
-    user_info = TokenGenerator().decode_token(token)
+    user_info = TokenGenerator().decode_token(token.split(" ")[1].strip())
     records = get_records_for_user(user_info["id"], exercise_name, session=session)
 
     return records
