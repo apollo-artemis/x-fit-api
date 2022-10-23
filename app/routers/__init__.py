@@ -1,6 +1,7 @@
-from fastapi import APIRouter
 from datetime import datetime
-from starlette.responses import Response
+
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 
 root_router = APIRouter()
 
@@ -12,6 +13,4 @@ async def root():
     :return:
     """
     current_time = datetime.utcnow()
-    return Response(
-        f"Notification API (UTC: {current_time.strftime('%Y.%m.%d %H:%M:%S')})"
-    )
+    return JSONResponse(status_code=200, content=dict(msg=f"Notification API (UTC: {current_time.strftime('%Y.%m.%d %H:%M:%S')})"))

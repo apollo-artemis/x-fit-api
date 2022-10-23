@@ -1,9 +1,7 @@
-from ast import For
-from unittest.util import _MAX_LENGTH
 from db.conn import Base
-from sqlalchemy import Enum, Column, DateTime, ForeignKey, Integer, String, func
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Session
+from sqlalchemy import (Column, DateTime, Enum, ForeignKey, Integer, String,
+                        func)
+from sqlalchemy.orm import Session, relationship
 
 
 class BaseMixin:

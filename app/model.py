@@ -2,6 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+
 # 220916 현재 사용 x 
 # data model
 class ExerciseRecord(BaseModel):

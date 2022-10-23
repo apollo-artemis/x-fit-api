@@ -1,8 +1,14 @@
 from datetime import datetime
-from typing import List
 from enum import Enum
+from typing import List
+
 from pydantic import BaseModel
 from pydantic.networks import EmailStr
+
+
+class SnsType(Enum):
+    Kakao: str = "kakao"
+    Apple: str = "apple"
 
 
 class RecordBase(BaseModel):

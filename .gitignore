@@ -7,3 +7,5 @@ app/alembic/backup
 
 # db migration env
 alembic.ini
+
+frontend
