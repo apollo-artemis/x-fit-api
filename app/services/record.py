@@ -1,8 +1,8 @@
+from db.conn import db
 from db.schemas import Records
+from fastapi import Depends
 from models import RecordCreate
 from sqlalchemy.orm import Session
-from fastapi import Depends
-from db.conn import db
 
 
 def create_user_records(
@@ -34,3 +34,12 @@ def get_records_for_user(
         .limit(limit)
         .all()
     )
+
+# kg 2 lbs, lbs 2 kg
+async def weight_shift(weight, current_unit):
+    if current_unit == "kg":
+        target = weight * 2.20462
+    else:
+        target = weight * 0.453592
+    
+    return target

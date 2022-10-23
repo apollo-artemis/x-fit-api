@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import jwt
 from models import UserJWT
 from errors import exceptions
+from fastapi import HTTPException
 from fastapi.security import HTTPBearer
 from services.auth import url_pattern_check
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
@@ -30,10 +31,23 @@ class TokenGenerator:
     def decode_token(self, token):
         try:
             payload = jwt.decode(token, self.secret_key, algorithms=self.algorithm)
-        except jwt.ExpiredSignatureError:
-            raise exceptions.TokenExpiredEx()
-        except jwt.DecodeError:
-            raise exceptions.TokenDecodeEx()
+        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as e:
+            if e == jwt.ExpiredSignatureError:
+                error = exceptions.TokenExpiredEx()
+            else:
+                error = exceptions.TokenDecodeEx()
+            
+            error_dict = dict(
+                status=error.status_code,
+                msg=error.msg,
+                detail=error.detail,
+                code=error.code,
+            )
+            raise HTTPException(status_code=error.status_code, detail=error_dict)
+        # except jwt.ExpiredSignatureError:
+        #     raise exceptions.TokenExpiredEx()
+        # except jwt.DecodeError:
+        #     raise exceptions.TokenDecodeEx()
         return payload["sub"]
 
 

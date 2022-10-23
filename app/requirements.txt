@@ -29,6 +29,7 @@ pydantic==1.9.1
 PyJWT==2.4.0
 PyMySQL==1.0.2
 python-dotenv==0.20.0
+python-multipart
 pytz==2022.2.1
 PyYAML==6.0
 sniffio==1.2.0
@@ -40,3 +41,4 @@ uvicorn==0.18.2
 uvloop==0.16.0
 watchfiles==0.15.0
 websockets==10.3
+requests==2.28.1
