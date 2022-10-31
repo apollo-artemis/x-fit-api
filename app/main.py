@@ -27,6 +27,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    # router_list = [auth, record, wod]
     app.include_router(auth.router)
     app.include_router(record.router)
     app.include_router(wod.router)

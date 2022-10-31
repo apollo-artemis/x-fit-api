@@ -93,3 +93,10 @@ class WodUpdate(BaseModel):
     title: str
     text: str
     wod_type: str
+
+class WodRecordCreate(BaseModel):
+    round_record: int
+    reps_record: int
+    is_private: bool
+    wod_id: int
+    wod_type: str

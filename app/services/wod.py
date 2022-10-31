@@ -1,5 +1,5 @@
 # from sqlalchemy import delete, where
-from db.schemas import Users, Wods, WodTypes
+from db.schemas import Users, WodAmrapRecords, Wods, WodTimeRecords, WodTypes
 from errors import exceptions
 from fastapi import HTTPException
 
@@ -15,21 +15,33 @@ def wod_type_shift(wod_type_str):
     return wod_type_no
 
 
-def create_user_wod(wod_info, user_id, session):
+async def create_user_wod(wod_info, user_id, session):
     
     wod_type_no = wod_type_shift(wod_info.wod_type)
 
-    Wods.create(
-        session, 
-        auto_commit=True,
-        title=wod_info.title,
-        text=wod_info.text,
-        wod_type_id=wod_type_no,
-        like=0,
-        view_counts=0,
-        user_id=user_id
-    )
-
+    # Wods.create(
+    #     session, 
+    #     auto_commit=True,
+    #     title=wod_info.title,
+    #     text=wod_info.text,
+    #     wod_type_id=wod_type_no,
+    #     like=0,
+    #     view_counts=0,
+    #     user_id=user_id
+    # )
+    if wod_type_no == 1:
+        my_wod = WodTimeRecords(user_id=user_id,
+                                is_private=is_private,
+                                wod_id=wod_info.wod_id,
+                                wod_type_id=wod_type_no,
+                                time_record=wod_type.time_record)
+    elif wod_type_no == 2:
+        my_wod = WodAmrapRecords(user_id=user_id,
+                                is_private=is_private,
+                                wod_id=wod_info.wod_id,
+                                wod_type_id=wod_type_no,
+                                round_record=wod_info.round_record,
+                                reps_record=wod_info.reps_record)
 
 async def get_wod_detail(wod_id, session):
     try:
@@ -60,6 +72,7 @@ async def get_wod_detail(wod_id, session):
         error_dict: dict = dict(status=error.status_code, msg=error.msg, detail=error.detail, ex=error.ex)
         raise HTTPException(status_code=error.status_code, detail=error_dict)
 
+
 async def wod_ownership_check(wod_id, user_id, session):
     try:
         result = (
@@ -84,9 +97,9 @@ async def update_wod_info(wod_id, wod_info, session):
     wod_type_no = wod_type_shift(wod_info.wod_type)
     
     (
-        session.query(Wods).
-        filter(Wods.id == wod_id).
-        update({'title': wod_info.title, 'text': wod_info.text, 'wod_type_id': wod_type_no})
+        session.query(Wods)
+        .filter(Wods.id == wod_id)
+        .update({'title': wod_info.title, 'text': wod_info.text, 'wod_type_id': wod_type_no})
     )
 
     session.commit()
@@ -98,3 +111,5 @@ async def wod_delete(wod_id, session):
     # delete.where(Wods).filter(Wods.id == wod_id)
 
 
+async def get_wods_list(user_id, session):
+    session.query(Wods)

@@ -15,7 +15,7 @@ router = APIRouter(prefix="/wod")
 # 와드 기록 생성(create)
 @router.post("/create")
 async def create_new_wod(
-    wod_info: WodCreate, 
+    wod_info: WodRecordCreate, 
     session: Session = Depends(db.session), 
     token: str = Depends(API_KEY_HEADER)
 ):

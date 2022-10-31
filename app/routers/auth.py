@@ -8,7 +8,6 @@ from services.auth import (check_password, check_pw_format, create_new_user,
                            is_email_exist)
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
-
 from utils.custom_oauth import KaKaoOauth
 
 router = APIRouter(prefix="/auth")
@@ -27,7 +26,7 @@ async def register(register_info: UserRegister, session: Session = Depends(db.ge
         return JSONResponse(status_code=400, content=dict(msg="EMAIL ALREADY EXISTS"))
     if not await check_pw_format(register_info.password):
         return JSONResponse(status_code=400, content=dict(msg="WRONG PASSWORD FORMAT"))
-
+    
     await create_new_user(register_info, session)
 
     return JSONResponse(status_code=201, content=dict(msg="SUCCESSFULLY REGISTERED"))

@@ -1,6 +1,6 @@
 from db.conn import Base
-from sqlalchemy import (Column, DateTime, Enum, ForeignKey, Integer, String,
-                        func)
+from sqlalchemy import (Boolean, Column, DateTime, Enum, ForeignKey, Integer,
+                        String, func)
 from sqlalchemy.orm import Session, relationship
 
 
@@ -78,7 +78,6 @@ class Wods(Base, BaseMixin):
     text = Column(String(1000), nullable=False)
     like = Column(Integer())
     view_counts = Column(Integer())
-    user_id = Column(Integer, ForeignKey(Users.id, ondelete='CASCADE'))
     wod_type_id = Column(Integer, ForeignKey(WodTypes.id, ondelete='SET NULL'))
 
     user = relationship("Users", back_populates="wod")
@@ -92,6 +91,7 @@ class WodTimeRecords(Base, BaseMixin):
     __tablename__ = "wod_time_records"
     
     time_record = Column(Integer)
+    is_private = Column(Boolean)
     user_id = Column(Integer, ForeignKey(Users.id))
     wod_id = Column(Integer, ForeignKey(Wods.id))
     wod_type_id = Column(Integer, ForeignKey(WodTypes.id))
@@ -105,6 +105,7 @@ class WodAmrapRecords(Base, BaseMixin):
 
     round_record = Column(Integer)
     reps_record = Column(Integer)
+    is_private = Column(Boolean)
     user_id = Column(Integer, ForeignKey(Users.id))
     wod_id = Column(Integer, ForeignKey(Wods.id))
     wod_type_id = Column(Integer, ForeignKey(WodTypes.id))
